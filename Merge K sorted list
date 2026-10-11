@@ -1,0 +1,25 @@
+#include <stdlib.h>
+
+struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {
+    struct ListNode dummy = {0, NULL};
+    struct ListNode* curr = &dummy;
+
+    while (1) {
+        int min = -1;
+
+        for (int i = 0; i < listsSize; i++) {
+            if (lists[i] && (min == -1 || lists[i]->val < lists[min]->val))
+                min = i;
+        }
+
+        if (min == -1)
+            break;
+
+        curr->next = lists[min];
+        curr = curr->next;
+        lists[min] = lists[min]->next;
+    }
+
+    curr->next = NULL;
+    return dummy.next;
+}
